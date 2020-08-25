@@ -36,7 +36,7 @@ const useCryptocurrency = (label, initialState, cryptocurrencies) => {
 				<option value='-1'>Choose an option</option>
 				{
 					cryptocurrencies.map(crypto => (
-						<option key={crypto.code} value={crypto.code}>${crypto.name}</option>
+						<option key={crypto.CoinInfo.Id} value={crypto.CoinInfo.Name}>${crypto.CoinInfo.FullName}</option>
 					))
 				}
 			</Select>
