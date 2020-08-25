@@ -5,8 +5,7 @@ import Form from './components/Form';
 
 import styled from '@emotion/styled';
 
-function App() {
-	const Container = styled.div`
+const Container = styled.div`
 		max-width: 900px;
 		margin: 0 auto;
 		@media (min-width: 992px) {
@@ -16,12 +15,12 @@ function App() {
 		}
 	`;
 
-	const Image = styled.img`
+const Image = styled.img`
 		max-width: 100%;
 		margin-top: 5 rem;
 	`;
 
-	const Heading = styled.h1`
+const Heading = styled.h1`
 		font-family: 'Bebas Neue', cursive;
 		color: #ffffff;
 		text-align: left;
@@ -39,6 +38,7 @@ function App() {
 		}
 	`;
 
+function App() {
 	return (
 		<Container>
 			<div>
