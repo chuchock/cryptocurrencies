@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
+import Error from './Error';
+
 import useCurrency from '../hooks/useCurrency';
 import useCriptocurrency from '../hooks/useCryptocurrency';
 import axios from 'axios';
+
 
 const Button = styled.input`
 		margin-top: 20px;
@@ -24,7 +27,11 @@ const Button = styled.input`
 
 const Form = () => {
 
+	// List of cryptocurrencies
 	const [cryptocurrencies, setCryptocurrencies] = useState([]);
+
+	// Form validation
+	const [error, setError] = useState(false);
 
 	const CURRENCIES = [
 		{ code: 'USD', name: 'US DOLLAR' },
@@ -33,9 +40,9 @@ const Form = () => {
 		{ code: 'GBP', name: 'POUND STERLING' }
 	];
 
-	const [currency, SelectCurrency] = useCurrency('Choose your currency', '', CURRENCIES);
+	const [currency, SelectCurrency] = useCurrency('Choose your currency', '-1', CURRENCIES);
 
-	const [criptocurrency, SelectCryptoCurrency] = useCriptocurrency('Choose your cryptocurrency', '',
+	const [criptocurrency, SelectCryptoCurrency] = useCriptocurrency('Choose your cryptocurrency', '-1',
 		cryptocurrencies);
 
 	// Call API
@@ -51,8 +58,27 @@ const Form = () => {
 		callAPI();
 	}, []);
 
+	const estimateCurrency = e => {
+		e.preventDefault();
+
+		// validate if both selects have selected option
+		if (currency === '-1' || criptocurrency === '-1') {
+			setError(true);
+			return;
+		}
+
+		setError(false);
+	}
+
 	return (
-		<form>
+		<form
+			onSubmit={estimateCurrency}
+		>
+			{error &&
+				<Error
+					message="You must select both options"
+				/>
+			}
 			<SelectCurrency />
 			<SelectCryptoCurrency />
 			<Button
