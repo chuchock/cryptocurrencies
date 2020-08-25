@@ -25,7 +25,7 @@ const Button = styled.input`
 		}
 	`
 
-const Form = () => {
+const Form = ({ setCurrency, setCryptocurrency }) => {
 
 	// List of cryptocurrencies
 	const [cryptocurrencies, setCryptocurrencies] = useState([]);
@@ -42,7 +42,7 @@ const Form = () => {
 
 	const [currency, SelectCurrency] = useCurrency('Choose your currency', '-1', CURRENCIES);
 
-	const [criptocurrency, SelectCryptoCurrency] = useCriptocurrency('Choose your cryptocurrency', '-1',
+	const [cryptocurrency, SelectCryptoCurrency] = useCriptocurrency('Choose your cryptocurrency', '-1',
 		cryptocurrencies);
 
 	// Call API
@@ -62,12 +62,16 @@ const Form = () => {
 		e.preventDefault();
 
 		// validate if both selects have selected option
-		if (currency === '-1' || criptocurrency === '-1') {
+		if (currency === '-1' || cryptocurrency === '-1') {
 			setError(true);
 			return;
 		}
 
 		setError(false);
+
+		// pass data to principal component
+		setCurrency(currency);
+		setCryptocurrency(cryptocurrency);
 	}
 
 	return (
