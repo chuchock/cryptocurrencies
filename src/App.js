@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import image from './cryptomonedas.png';
 import Form from './components/Form';
+import Estimation from './components/Estimation';
 
 import styled from '@emotion/styled';
 import axios from 'axios';
@@ -43,7 +44,7 @@ function App() {
 
 	const [currency, setCurrency] = useState('');
 	const [cryptocurrency, setCryptocurrency] = useState('');
-	
+	const [result, setResult] = useState({});
 
 	useEffect(() => {
 		const callAPI = async () => {
@@ -54,7 +55,7 @@ function App() {
 
 			const result = await axios.get(url);
 
-			console.log(result.data.DISPLAY[cryptocurrency][currency]);
+			setResult(result.data.DISPLAY[cryptocurrency][currency]);
 		}
 
 		callAPI();
@@ -73,6 +74,9 @@ function App() {
 				<Form
 					setCurrency={setCurrency}
 					setCryptocurrency={setCryptocurrency}
+				/>
+				<Estimation
+					result={result}
 				/>
 			</div>
 		</Container>
