@@ -6,6 +6,7 @@ import Estimation from './components/Estimation';
 
 import styled from '@emotion/styled';
 import axios from 'axios';
+import Spinner from './components/Spinner';
 
 const Container = styled.div`
 		max-width: 900px;
@@ -45,6 +46,7 @@ function App() {
 	const [currency, setCurrency] = useState('');
 	const [cryptocurrency, setCryptocurrency] = useState('');
 	const [result, setResult] = useState({});
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const callAPI = async () => {
@@ -55,11 +57,20 @@ function App() {
 
 			const result = await axios.get(url);
 
-			setResult(result.data.DISPLAY[cryptocurrency][currency]);
+			// Show spinner
+			setLoading(true);
+
+			setTimeout(() => {
+				setLoading(false);
+				setResult(result.data.DISPLAY[cryptocurrency][currency]);
+			}, 3000)
 		}
 
 		callAPI();
 	}, [currency, cryptocurrency]);
+
+	// Show spinner or result
+	const component = (loading) ? <Spinner /> : <Estimation result={result} />
 
 	return (
 		<Container>
@@ -75,9 +86,7 @@ function App() {
 					setCurrency={setCurrency}
 					setCryptocurrency={setCryptocurrency}
 				/>
-				<Estimation
-					result={result}
-				/>
+				{component}
 			</div>
 		</Container>
 	);
